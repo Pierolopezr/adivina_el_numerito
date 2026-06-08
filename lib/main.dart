@@ -68,9 +68,9 @@ class _NumeroScreenState extends State<NumeroScreen> {
    * 
    * Es como el "constructor" de la clase.
    */
-  @override
-  void initState() {
-    super.initState();  // SIEMPRE se llama primero
+  @override 
+  void initState() { // Es una función especial que se ejecuta UNA SOLA VEZ cuando el widget se crea por primera vez. Es como el "constructor" de la clase.
+    super.initState();  // SIEMPRE se llama primero porque es el método de la clase padre que necesitamos ejecutar
     _generarNumero();   // Generar el número al iniciar
   }
 
@@ -90,7 +90,7 @@ class _NumeroScreenState extends State<NumeroScreen> {
     debugPrint("🎲 Número secreto generado: $numeroSecreto");
     
     // 4. Resetear el contador de intentos
-    setState(() {
+    setState(() { // Le dice a Flutter que los datos han cambiado y que tiene que redibujar la pantalla. Sin setState, aunque las variables cambien, la interfaz no se actualiza.
       intentos = 0;
       mensaje = "¡Empieza a jugar!";
     });

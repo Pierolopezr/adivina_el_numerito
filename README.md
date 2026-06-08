@@ -47,10 +47,11 @@ Se crea un objeto Random() ->
 Random decide un número (ej: 47) ->
 Se guarda en la variable numeroSecreto -> 
 Flutter redibuja la pantalla con ese número  
-`
+` 
+
 Una vez planteado, creamos variables y clases para definir con más precisión:
 
-`
+```
 1. main() llama a runApp()
 2. Flutter crea MyApp
 3. Flutter ve "home: NumeroScreen()"
@@ -62,7 +63,18 @@ Una vez planteado, creamos variables y clases para definir con más precisión:
 9. Se guarda en numeroSecreto
 10. setState() le dice a Flutter: "Redibuja!!" 
 11. Se ejecuta build() y muestra la pantalla.
-`
+```
+
+
+- Usamos initState() porque es una función especial que se ejecuta UNA SOLA VEZ cuando el widget se crea por primera vez. Es como el "constructor" de la clase.
+- Siempre hay que llamar a super.initState() primero porque es el método de la clase padre que necesitamos ejecutar.
+- Al usar setState() le dice a Flutter que los datos han cambiado y que tiene que redibujar la pantalla. Sin setState, aunque las variables cambien, la interfaz no se actualiza. 
+
+<img src="fotos flutter/dia2.png" width="250" height="550"> 
+
+<img src="fotos flutter/dia2.1.png" width="550" height="150">
+
+
 
 
 
