@@ -57,6 +57,8 @@ class _NumeroScreenState extends State<NumeroScreen> {
   int numeroSecreto = 0;    // El número que hay que adivinar
   String mensaje = "¡Empieza a jugar!";
   int intentos = 0;          // Contador de intentos
+
+  double valorActualSlider = 50.0; // Valor inicial del slider
   
   // ========================================
   // initState - Primera función que corre
@@ -133,9 +135,66 @@ class _NumeroScreenState extends State<NumeroScreen> {
             ),
             
             const SizedBox(height: 40),
+            // SLIDER (Una barra que permite elegir un valor en un rango)
+            Slider(
+              value: valorActualSlider,
+              min: 0,
+              max: 100,
+              divisions: 100,
+              label: valorActualSlider.round().toString(),
+              onChanged: (double value){ // Función que se ejecuta cuando se mueve el slider. Es double porque slider devulve un double y no un int.
+                setState(() {
+                  valorActualSlider = value; // Guardo el nuevo valor y actualizo la pantalla
+                });
+              },
+            ),
+
+            const SizedBox(height: 10), // Espacio en blanco en VERTICAL
+
+            // NÚMERO SELECCIONADO
+            Text(valorActualSlider.round().toString(), style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold )),
             
+            const SizedBox(height: 20),
+
+            // BOTONES + Y -
+            Row( // Contenedor horizontal
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // espacio igual entre todos
+              children: [ // Lista de widgets dentro del row
+                // Botón - 
+                ElevatedButton( // Botón con sobra
+                  onPressed: (){
+                    setState(() { // Actualizar la pantalla
+                      if (valorActualSlider > 0) {
+                        valorActualSlider--;
+                      }
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red[400], padding: const EdgeInsets.all(20),),
+
+                  child: const Icon(Icons.remove, size:30), // Ícono dentro del botón
+                  ),
+
+                  // Botón + 
+                  ElevatedButton(onPressed: (){
+                    setState(() {
+                      if (valorActualSlider < 100) {
+                        valorActualSlider++;
+                      }
+                    });
+                  },
+                    style:ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[400],
+                      padding: const EdgeInsets.all(20),
+                    ),
+                    child: const Icon(Icons.add, size: 30),
+                  ),
+                ],
+              ),
+
+
+            const SizedBox(height: 30),
             // ---------------
-            // NÚMERO SECRETO
+            // NÚMERO SECRETO  
             // ---------------
             Container(
               padding: const EdgeInsets.all(20),

@@ -10,7 +10,7 @@ A new Flutter project.
 Mediante los comandos de ">create flutter adivinar_numerito" creo la app. 
 
 Me genera un problema, no hay un emulador de dispotivo para visualizar la app, con el comando "Flutter run" me lanza solo a acudir a los navegadores disponibles (en mi caso Microsoft Edge) 
-
+ 
 ![alt text](image.png) 
 
 Por lo que tengo que descargar Android studio para crear un emulador de android. 
@@ -49,7 +49,7 @@ Se guarda en la variable numeroSecreto ->
 Flutter redibuja la pantalla con ese número  
 ` 
 
-Una vez planteado, creamos variables y clases para definir con más precisión:
+Una vez planteado, creamos variables, funciones y clases para definir con más precisión:
 
 ```
 1. main() llama a runApp()
@@ -74,9 +74,40 @@ Una vez planteado, creamos variables y clases para definir con más precisión:
 
 <img src="fotos flutter/dia2.1.png" width="550" height="150">
 
+:)
 
+# Día 3: INTERFAZ INTERACTIVA (SLIDER Y BOTONES)
 
+Hoy añadí la parte interactiva del juego: Un Slider (barra deslizable) y botones para que el usuario pueda elegir un número.
 
+Problema: En el día 2, el usuario solo podía mirar el número secreto en pantalla. No podía hacer nada para jugar.
+Solución: Hacer que el usuario pueda elegir un númro para comparar con el secreto. 
 
+**Los 3 nuevos widgets**
+
+1. Slider: Es una barra que te permite elegir un valor en un rango. 
+
+    <img src="fotos flutter/dia3.1.png" width="550" height="150">
+2. ElevatedButton: Es un botón moderno con sombra. 
+
+    <img src="fotos flutter/dia3.2.png" width="500" height="350"> 
+
+3. Row: Es un contenedor horizontal. Permite poner widgets uno al lado del otro.
+
+**setState()** 
+
+Cada vez que el usuario interactua, necesitamos `setState()` para que Flutter redibuje la pantalla. 
+
+**Round** 
+
+El Slider usa double porque se mueve suavemente (50.5, 50.6,...), para poder mostrarlo, usamos `.round()` para convertirlo en int.
+
+**Conexión entre los botones** 
+
+Los botones **NO** están conectados directamente entre sí. Ambos están conectados a la misma variable: `valorActualSlider`. 
+
+**Resultado:**
+
+<img src="fotos flutter/dia 3.png" width="250" height="550">
 
 
