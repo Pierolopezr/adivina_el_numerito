@@ -57,6 +57,7 @@ class _NumeroScreenState extends State<NumeroScreen> {
   int numeroSecreto = 0;    // El número que hay que adivinar
   String mensaje = "¡Empieza a jugar!";
   int intentos = 0;          // Contador de intentos
+  bool yaGano = false; // variable "yaganó" 
 
   double valorActualSlider = 50.0; // Valor inicial del slider
   
@@ -94,8 +95,31 @@ class _NumeroScreenState extends State<NumeroScreen> {
     // 4. Resetear el contador de intentos
     setState(() { // Le dice a Flutter que los datos han cambiado y que tiene que redibujar la pantalla. Sin setState, aunque las variables cambien, la interfaz no se actualiza.
       intentos = 0;
+      yaGano = false;
       mensaje = "¡Empieza a jugar!";
     });
+  }
+
+  void _verificarNumero() {
+    int intento = valorActualSlider.round();
+
+    setState(() {
+      intentos++;
+
+      if (intento == numeroSecreto) {
+        yaGano = true;
+        mensaje = "¡FELICIDADES! Lo adivinaste en $intentos intentos";
+        debugPrint("¡FELICIDADES! Lo adivinaste en $intentos intentos");
+      }
+      else if (intento < numeroSecreto) {
+        mensaje = "¡Es MAYOR! Intenta de nuevo.";
+        debugPrint("¡Es MAYOR! Intenta de nuevo.");
+      }
+      else {
+        mensaje = "¡Es MENOR! Intenta de nuevo.";
+        debugPrint("¡Es MENOR! Intenta de nuevo.");
+      }
+    }); 
   }
 
   // ========================================
@@ -191,27 +215,42 @@ class _NumeroScreenState extends State<NumeroScreen> {
                 ],
               ),
 
+            const SizedBox(height: 30),
+
+            // Botón ADIVINAR
+            ElevatedButton(
+              onPressed: yaGano ? _generarNumero : _verificarNumero,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: yaGano ? Colors.green : Colors.deepPurple,
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              ),
+              child: Text(yaGano ? "JUGAR DE NUEVO" : "ADIVINAR", style: const TextStyle(fontSize: 18)),
+            ),
 
             const SizedBox(height: 30),
+
+            
             // ---------------
             // NÚMERO SECRETO  
             // ---------------
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.amber[100],     // fondo amarillo
-                borderRadius: BorderRadius.circular(15),  // bordes redondeados
-                border: Border.all(color: Colors.amber, width: 2),
-              ),
-              child: Text(
-                "🔒 Número: $numeroSecreto",  // ⚠️ Esto es para pruebas
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.amber,
+
+            if (!yaGano) // Solo mostrar si NO ha ganado
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.amber[100],     // fondo amarillo
+                  borderRadius: BorderRadius.circular(15),  // bordes redondeados
+                  border: Border.all(color: Colors.amber, width: 2),
+                ),
+                child: Text(
+                  "🔒 Número: $numeroSecreto",  // ⚠️ Esto es para pruebas
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber,
+                  ),
                 ),
               ),
-            ),
             
             const SizedBox(height: 30),
             
@@ -221,15 +260,12 @@ class _NumeroScreenState extends State<NumeroScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.grey[100],
+                color: yaGano ? Colors.green[100] :  Colors.grey[100],
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Text(
-                mensaje,
-                style: const TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
+              child: Text(mensaje, style: TextStyle(fontSize: 18, color: yaGano ? Colors.green[800] : Colors.black, fontWeight: yaGano ? FontWeight.bold : FontWeight.normal), textAlign: TextAlign.center),
               ),
-            ),
+            
             
             const SizedBox(height: 20),
             

@@ -74,14 +74,14 @@ Una vez planteado, creamos variables, funciones y clases para definir con más p
 
 <img src="fotos flutter/dia2.1.png" width="550" height="150">
 
-:)
+":)"
 
 # Día 3: INTERFAZ INTERACTIVA (SLIDER Y BOTONES)
 
 Hoy añadí la parte interactiva del juego: Un Slider (barra deslizable) y botones para que el usuario pueda elegir un número.
 
-Problema: En el día 2, el usuario solo podía mirar el número secreto en pantalla. No podía hacer nada para jugar.
-Solución: Hacer que el usuario pueda elegir un númro para comparar con el secreto. 
+***Problema:*** En el día 2, el usuario solo podía mirar el número secreto en pantalla. No podía hacer nada para jugar.
+***Solución:*** Hacer que el usuario pueda elegir un númro para comparar con el secreto. 
 
 **Los 3 nuevos widgets**
 
@@ -108,6 +108,32 @@ Los botones **NO** están conectados directamente entre sí. Ambos están conect
 
 **Resultado:**
 
-<img src="fotos flutter/dia 3.png" width="250" height="550">
+<img src="fotos flutter/dia 3.png" width="250" height="550"> 
+  
+:)  
 
+# Día 4: LÓGICA DEL JUEGO (COMPARAR Y PISTAS)
 
+Hoy haré que la app compare los números y dé pistas. 
+
+***Problema***: No puedo comparar el número con el número secreto, no recibo pistas, y no funciona el contador de intentos.  
+***Solución:*** Hacer un botón ADIVINAR, comparaciones, actualizar mensajes con pistas, funcionamiento de contar intentos. 
+
+**_verificarNumero()**  
+Creamos una función `_verificarNumero()` que compara los números, donde añadiremos una nueva variable `yaGano`, que nos permitirá saber si el usuario ya ganó.
+
+<img src="fotos flutter/dia4.2.png" width="350" height="250"> 
+
+**Botón dinámico**  
+El botón cambia según si ganaste o no. 
+<img src="fotos flutter/dia4.png" width="550" height="150"> 
+
+**Mensaje de pistas** 
+Muestra pistas al ir intentando adivinar el número. 
+
+<img src="fotos flutter/dia4.3.png" width="250" height="550"> 
+
+**Mensaje de victoria**  
+El mensaje cambia de color cuando ganas. 
+
+<img src="fotos flutter/dia4.4.png" width="250" height="550"> 
