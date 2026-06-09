@@ -1,6 +1,6 @@
 # adivina_el_numerito
 
-A new Flutter project.
+A new Flutter project from PIERO LÓPEZ - 2 DAM.
 
 ## Getting Started
 
@@ -126,6 +126,7 @@ Creamos una función `_verificarNumero()` que compara los números, donde añadi
 
 **Botón dinámico**  
 El botón cambia según si ganaste o no. 
+
 <img src="fotos flutter/dia4.png" width="550" height="150"> 
 
 **Mensaje de pistas** 
@@ -137,3 +138,43 @@ Muestra pistas al ir intentando adivinar el número.
 El mensaje cambia de color cuando ganas. 
 
 <img src="fotos flutter/dia4.4.png" width="250" height="550"> 
+
+# Día 5: DISEÑO VISUAL + IMÁGENES + RÉCORD 
+Hoy vamos a añadir imágenes que cambian según el estado del juego, diseño visual y un sistema de récords. 
+
+**Imágenes según el estado**
+Ahora la app muestra diferentes imágenes dependiendo de si:
+
+Es el primer intento (imagen de inicio)
+La pista es "mayor" (imagen indicando número mayor)
+La pista es "menor" (imagen indicando número menor)
+¡Has ganado! (imagen de victoria) 
+
+
+**Nueva variable: pistaActual**
+
+Usamos una variable `pistaActual` para recordar qué pista se dio última vez, así la imagen no cambia al mover el slider.
+
+**Lógica de imagen** 
+
+<img src="fotos flutter/dia5.1.png" width="350" height="250"> 
+
+**Declarar en pubspec.yaml** 
+
+<img src="fotos flutter/dia5.png" width="350" height="100"> 
+
+**Sistema de récords** 
+Guardamos la mejor puntuación (menos intentos) en una variable `int mejorRecord = 999`, comenzamos con un número alto. Cuando ganas, comparamos si tus intentos son menores que el récord.
+
+**Ocultar número secreto** 
+
+El número secreto ya no se muestra en pantalla para hacer el juego más difícil. Solo aparece en la consola de debug.
+
+**TRABAJO FINALIZADO** 
+
+<img src="fotos flutter/dia5.2.png" width="250" height="550"> 
+
+
+
+
+

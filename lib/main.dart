@@ -58,6 +58,9 @@ class _NumeroScreenState extends State<NumeroScreen> {
   String mensaje = "¡Empieza a jugar!";
   int intentos = 0;          // Contador de intentos
   bool yaGano = false; // variable "yaganó" 
+  int mejorRecord = 999;
+  bool primerIntento = true;
+  String pistaActual = 'inicio';
 
   double valorActualSlider = 50.0; // Valor inicial del slider
   
@@ -96,7 +99,9 @@ class _NumeroScreenState extends State<NumeroScreen> {
     setState(() { // Le dice a Flutter que los datos han cambiado y que tiene que redibujar la pantalla. Sin setState, aunque las variables cambien, la interfaz no se actualiza.
       intentos = 0;
       yaGano = false;
-      mensaje = "¡Empieza a jugar!";
+      primerIntento = true;
+      pistaActual = 'inicio';
+      mensaje = "¡Empieza a jugar!"; // Para imágenes
     });
   }
 
@@ -104,18 +109,35 @@ class _NumeroScreenState extends State<NumeroScreen> {
     int intento = valorActualSlider.round();
 
     setState(() {
+      if (yaGano){
+        // Si ya había ganado, no hacer nada
+        return;
+      }
+
+      primerIntento = false;
       intentos++;
 
       if (intento == numeroSecreto) {
         yaGano = true;
-        mensaje = "¡FELICIDADES! Lo adivinaste en $intentos intentos";
+        pistaActual = 'ganaste';
+
+        // Comprueba si es nuevo récord
+
+        if (intentos < mejorRecord) {
+          mejorRecord = intentos;
+          mensaje = "¡NUEVO RÉCORD! Lo adivinaste en $intentos intentos";
+        }else {
+          mensaje = "¡FELICIDADES! Lo adivinaste en $intentos intentos";
+        }
         debugPrint("¡FELICIDADES! Lo adivinaste en $intentos intentos");
       }
       else if (intento < numeroSecreto) {
+        pistaActual = 'mayor';
         mensaje = "¡Es MAYOR! Intenta de nuevo.";
         debugPrint("¡Es MAYOR! Intenta de nuevo.");
       }
       else {
+        pistaActual = 'menor';
         mensaje = "¡Es MENOR! Intenta de nuevo.";
         debugPrint("¡Es MENOR! Intenta de nuevo.");
       }
@@ -135,13 +157,19 @@ class _NumeroScreenState extends State<NumeroScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             
-            // -------------
-            // icono grande
-            // -------------
-            const Icon(
-              Icons.help_outline,  // icono de pregunta
-              size: 80,
-              color: Colors.deepPurple,
+            // IMAGEN SEGÚN EL ESTADO
+            Container(
+              width:150,   
+              height:150, 
+              child: Image.asset(
+                yaGano 
+                  ? 'assets/imagenes/ganaste.gif'
+                  : pistaActual == 'mayor' 
+                    ? 'assets/imagenes/pista_es_numero_mayor.jpg'
+                    : pistaActual == 'menor'
+                      ? 'assets/imagenes/pista_es_numero_menor.jpg'
+                      : 'assets/imagenes/inicio.jpg',
+              ),
             ),
             
             const SizedBox(height: 20),
@@ -158,7 +186,8 @@ class _NumeroScreenState extends State<NumeroScreen> {
               textAlign: TextAlign.center,
             ),
             
-            const SizedBox(height: 40),
+            
+            const SizedBox(height: 30),
             // SLIDER (Una barra que permite elegir un valor en un rango)
             Slider(
               value: valorActualSlider,
@@ -176,7 +205,7 @@ class _NumeroScreenState extends State<NumeroScreen> {
             const SizedBox(height: 10), // Espacio en blanco en VERTICAL
 
             // NÚMERO SELECCIONADO
-            Text(valorActualSlider.round().toString(), style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold )),
+            Text(valorActualSlider.round().toString(), style: const TextStyle(fontSize: 38, fontWeight: FontWeight.bold )),
             
             const SizedBox(height: 20),
 
@@ -221,7 +250,7 @@ class _NumeroScreenState extends State<NumeroScreen> {
             ElevatedButton(
               onPressed: yaGano ? _generarNumero : _verificarNumero,
               style: ElevatedButton.styleFrom(
-                backgroundColor: yaGano ? Colors.green : Colors.deepPurple,
+                backgroundColor: yaGano ? Colors.green : const Color.fromARGB(255, 130, 99, 185),
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
               ),
               child: Text(yaGano ? "JUGAR DE NUEVO" : "ADIVINAR", style: const TextStyle(fontSize: 18)),
@@ -234,40 +263,44 @@ class _NumeroScreenState extends State<NumeroScreen> {
             // NÚMERO SECRETO  
             // ---------------
 
-            if (!yaGano) // Solo mostrar si NO ha ganado
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.amber[100],     // fondo amarillo
-                  borderRadius: BorderRadius.circular(15),  // bordes redondeados
-                  border: Border.all(color: Colors.amber, width: 2),
-                ),
-                child: Text(
-                  "🔒 Número: $numeroSecreto",  // ⚠️ Esto es para pruebas
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.amber,
-                  ),
-                ),
-              ),
             
-            const SizedBox(height: 30),
-            
-            // --------------------------------
-            // MENSAJE
-            // --------------------------------
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: yaGano ? Colors.green[100] :  Colors.grey[100],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(mensaje, style: TextStyle(fontSize: 18, color: yaGano ? Colors.green[800] : Colors.black, fontWeight: yaGano ? FontWeight.bold : FontWeight.normal), textAlign: TextAlign.center),
-              ),
-            
+            //Container(
+            //  padding: const EdgeInsets.all(20),
+            //  decoration: BoxDecoration(
+            //    color: Colors.amber[100],     // fondo amarillo
+            //    borderRadius: BorderRadius.circular(15),  // bordes redondeados
+            //    border: Border.all(color: Colors.amber, width: 2),
+            //  ),
+            //  child: Text(
+            //    "🔒 Número: $numeroSecreto",  // ⚠️ Esto es para pruebas
+            //    style: const TextStyle(
+            //      fontSize: 24,
+            //     fontWeight: FontWeight.bold,
+            //      color: Colors.amber,
+            //    ),
+            //  ),
+            //),
             
             const SizedBox(height: 20),
+            
+            // -----------------------------
+            // MENSAJE
+            // -----------------------------
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              decoration: BoxDecoration(
+                color: yaGano ? Colors.green : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                mensaje, 
+                style: TextStyle(fontSize: 15), 
+                textAlign: TextAlign.center
+              ),
+            ),
+            
+            
+            const SizedBox(height: 10),
             
             // --------------------------------
             // CONTADOR DE INTENTOS
